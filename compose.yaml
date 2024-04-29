@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: hackme # yep it's hardcoded
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - /home/grivvus/docker_volumes/postgres/coursework:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
