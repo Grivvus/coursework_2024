@@ -1,27 +1,28 @@
+from sqlalchemy import Boolean
 from sqlalchemy import Integer
 from sqlalchemy import ForeignKey
+from sqlalchemy import NUMERIC
 from sqlalchemy import String
-from sqlalchemy import Boolean
 from sqlalchemy import TIMESTAMP
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.postgresql import MONEY
+
 
 class Base(DeclarativeBase):
     pass
 
 
 class User(Base):
-    __tablename__ = "user" 
+    __tablename__ = "user"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     first_name: Mapped[str] = mapped_column(String(30))
     second_name: Mapped[str] = mapped_column(String(30))
     email: Mapped[str] = mapped_column(String(70))
     phone_number: Mapped[str] = mapped_column(String(13))
-    password: Mapped[str] = mapped_column(String(32)) # for md5 hash algorithm
+    password: Mapped[str] = mapped_column(String(32))  # for md5 hash algorithm
+    updated_at: Mapped[TIMESTAMP] = mapped_column(TIMESTAMP(timezone=True))
     is_super_user: Mapped[bool] = mapped_column(Boolean())
 
 
@@ -39,8 +40,12 @@ class Order(Base):
 class OrderProduct(Base):
     __tablename__ = "order_product"
 
-    order_id: Mapped[int] = mapped_column(ForeignKey("order.id"), primary_key=True)
-    product_id: Mapped[int] = mapped_column(ForeignKey("product.id"), primary_key=True)
+    order_id: Mapped[int] = mapped_column(
+        ForeignKey("order.id"), primary_key=True
+    )
+    product_id: Mapped[int] = mapped_column(
+        ForeignKey("product.id"), primary_key=True
+    )
     cnt: Mapped[int] = mapped_column(Integer())
 
 
@@ -48,7 +53,7 @@ class Product(Base):
     __tablename__ = "product"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    price: Mapped[MONEY] = mapped_column(MONEY()) # maybe should replace with numeric
+    price: Mapped[NUMERIC] = mapped_column(NUMERIC(precision=2, scale=10))
     in_stock: Mapped[int] = mapped_column(Integer())
     descrption: Mapped[str] = mapped_column(String())
     photo: Mapped[str] = mapped_column(String())
@@ -83,4 +88,3 @@ class Feedback(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
     text: Mapped[str] = mapped_column(String())
-
