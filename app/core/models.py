@@ -1,4 +1,3 @@
-from sqlalchemy import Boolean
 from sqlalchemy import Integer
 from sqlalchemy import ForeignKey
 from sqlalchemy import NUMERIC
@@ -13,17 +12,31 @@ class Base(DeclarativeBase):
     pass
 
 
-class User(Base):
-    __tablename__ = "user"
-
+class GenericUser:
     id: Mapped[int] = mapped_column(primary_key=True)
     first_name: Mapped[str] = mapped_column(String(30))
     second_name: Mapped[str] = mapped_column(String(30))
     email: Mapped[str] = mapped_column(String(70))
     phone_number: Mapped[str] = mapped_column(String(13))
     password: Mapped[str] = mapped_column(String(32))  # for md5 hash algorithm
-    updated_at: Mapped[TIMESTAMP] = mapped_column(TIMESTAMP(timezone=True))
-    is_super_user: Mapped[bool] = mapped_column(Boolean())
+    updated_at: Mapped[TIMESTAMP] = mapped_column(
+        TIMESTAMP(timezone=True), nullable=True
+    )
+
+
+class User(Base, GenericUser):
+    __tablename__ = "user"
+
+
+class Admin(Base, GenericUser):
+    __tablename__ = "admin"
+
+    passport_series: Mapped[str] = mapped_column(String(4))
+    passport_number: Mapped[str] = mapped_column(String(6))
+    # адрес проживания
+    living_address: Mapped[str] = mapped_column(String())
+    # адрес прописки
+    place_of_residence: Mapped[str] = mapped_column(String())
 
 
 class Order(Base):
@@ -87,4 +100,5 @@ class Feedback(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
-    text: Mapped[str] = mapped_column(String())
+    rate: Mapped[int] = mapped_column(Integer())
+    text: Mapped[str] = mapped_column(String(), nullable=True)
