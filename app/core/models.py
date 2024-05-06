@@ -6,6 +6,7 @@ from sqlalchemy import TIMESTAMP
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import relationship
 
 
 class Base(DeclarativeBase):
@@ -66,12 +67,14 @@ class Product(Base):
     __tablename__ = "product"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    price: Mapped[NUMERIC] = mapped_column(NUMERIC(precision=2, scale=10))
+    name: Mapped[str] = mapped_column(String(50))
+    price: Mapped[NUMERIC] = mapped_column(NUMERIC(precision=10, scale=2))
     in_stock: Mapped[int] = mapped_column(Integer())
-    descrption: Mapped[str] = mapped_column(String())
+    description: Mapped[str] = mapped_column(String())
     photo: Mapped[str] = mapped_column(String())
     product_type_id: Mapped[int] = mapped_column(ForeignKey("product_type.id"))
     manufacturer_id: Mapped[int] = mapped_column(ForeignKey("manufacturer.id"))
+    feedbacks: Mapped[list["Feedback"]] = relationship()
 
 
 class Manufacturer(Base):
@@ -92,7 +95,7 @@ class PicupPoint(Base):
     __tablename__ = "picup_point"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    physical_address: Mapped[str] = mapped_column(String(50))
+    physical_address: Mapped[str] = mapped_column(String(100))
 
 
 class Feedback(Base):
@@ -100,5 +103,6 @@ class Feedback(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    product_id: Mapped[int] = mapped_column(ForeignKey("product.id"))
     rate: Mapped[int] = mapped_column(Integer())
     text: Mapped[str] = mapped_column(String(), nullable=True)
