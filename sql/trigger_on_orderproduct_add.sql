@@ -7,7 +7,7 @@ as $$
 DECLARE cnt int;
 BEGIN
 	cnt := "in_stock" from public."product" where (NEW."product_id" = "id");
-	if cnt < NEW."cnt" or NEW."cnt" < 0 then
+	if cnt < NEW."cnt" or NEW."cnt" <= 0 then
 		RAISE EXCEPTION 'Error';
 	end if;
 	RETURN NEW;

@@ -13,6 +13,6 @@ BEGIN
 END;
 $$;
 
-CREATE TRIGGER trigger_control_prod_cnt
+CREATE TRIGGER check_new_date
 BEFORE UPDATE ON public."order" FOR EACH ROW
 EXECUTE PROCEDURE check_new_date_is_older();
