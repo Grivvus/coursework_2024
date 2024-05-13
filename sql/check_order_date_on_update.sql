@@ -16,3 +16,8 @@ $$;
 CREATE TRIGGER check_new_date
 BEFORE UPDATE ON public."order" FOR EACH ROW
 EXECUTE PROCEDURE check_new_date_is_older();
+
+-- test
+update public."order"
+set "deliver_date" = '2020-03-18'
+where "id" = 1;
