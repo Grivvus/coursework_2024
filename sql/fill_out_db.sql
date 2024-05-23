@@ -55,6 +55,8 @@ values ('Xiaomi band 8', 1.00, 5, 'test description, change in future', '/path/t
 insert into public."order" ("date", "deliver_date", "picup_point_id", "user_id")
 values ('2021-03-15', '2021-03-18', 1, 3);
 insert into public."order" ("date", "deliver_date", "picup_point_id", "user_id")
+values ('2021-05-15', '2021-05-18', 1, 3);
+insert into public."order" ("date", "deliver_date", "picup_point_id", "user_id")
 values ('2023-07-21', '2023-07-22', 2, 2);
 insert into public."order" ("date", "deliver_date", "picup_point_id", "user_id")
 values ('2020-02-01', '2020-02-07', 1, 5);

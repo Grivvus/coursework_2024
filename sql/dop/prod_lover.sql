@@ -16,3 +16,10 @@ from (
 	) subt
 	on "product_id" = "pid" and "cnt" = "mcnt")
 order by "pid"
+
+-- helper query
+select "product_id", "user_id" from
+(select "product_id", "order_id" from public."product" inner join public."order_product"
+on "product_id" = "id") inner join public."order" 
+on "order_id" = "id"
+order by "product_id"

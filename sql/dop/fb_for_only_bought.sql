@@ -22,4 +22,4 @@ EXECUTE PROCEDURE feedback_is_correct();
 
 -- test
 insert into public."feedback" ("user_id", "product_id", "text", "rate")
-values (4, 1, 'оч хороший товар, хотя не покупал, хз', 5);
+values (1, 2, 'оч хороший товар, хотя не покупал, хз', 5);

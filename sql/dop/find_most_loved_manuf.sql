@@ -1,5 +1,11 @@
 -- необходимо найти самого любимого производителя для пользователя
-select "manufacturer_id"
+CREATE OR REPLACE FUNCTION most_loved_manuf(in usr_id int)
+    RETURNS int
+AS $$
+DECLARE 
+    _res int;
+BEGIN
+select "manufacturer_id" into _res
 from (select "manufacturer_id", count(manufacturer_id) as cnt
 from (select * from (
 select "user_id" uid, "id" oid from public."order"
@@ -17,3 +23,16 @@ where cnt = (select max(cnt) from (select count(*) as "cnt" from public."product
         where "user_id" = 1
 ))
 group by "manufacturer_id"));
+return _res;
+END
+$$ LANGUAGE plpgsql;
+
+-- func call
+select most_loved_manuf(1)
+
+-- helper query for exampl
+select "product_id", "user_id", "manufacturer_id"  from public."product" inner join 
+(select * from public."order" inner join public."order_product"
+on "order_id" = "id")
+on public."product"."id" = "product_id"
+where "user_id" = 1;
