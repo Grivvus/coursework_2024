@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 import uvicorn
 
-from api.main import api_router
+from app.api.main import api_router
 
 
 app = FastAPI(
-    title="myapiv1", version="0.0.1",
+    title="my_own_tech_market_api", version="0.2.0",
 )
-app.include_router(api_router)
+app.include_router(api_router, prefix="api_v1/")
 
 
 if __name__ == "__main__":
